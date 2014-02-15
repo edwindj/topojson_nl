@@ -1,0 +1,31 @@
+<html>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="datamaps.usa.min.js"></script>
+<body>
+<div id="container" style="position: relative; width: 500px; height: 600px;"></div>
+<script>
+    var map = new Datamap({element: document.getElementById('container'),
+         geographyConfig: {
+            dataUrl: '../gemeente_2012.topojson'
+        },
+        scope: 'gemeente_2012',
+        setProjection: function(element, options) {
+            var projection, path;
+            projection = d3.geo.transverseMercator()
+              .rotate([-5.38720621, -52.15517440])
+              .scale(12000)
+              .translate([270,300])
+/*              .scale(element.offsetWidth)
+              .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+*///}
+            path = d3.geo.path()
+              .projection( projection );
+
+            return {path: path, projection: projection};
+        }
+    });
+</script>
+
+</body>
+</html>
