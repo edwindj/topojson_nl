@@ -61,9 +61,11 @@ to_geojson = (esri_object, name_filter = (x) -> x) ->
       geojson = to_geometry(esri_object)
   geojson
 
-test = true 
+exports.to_geojson = to_geojson
+
+###test = true 
 if test?
   fs = require "fs"
   e = require "./esri_f.json"
   g = to_geojson e, (x) -> x.toLowerCase().replace /^\w{2}_/, ""
-  fs.writeFileSync("geo.json", JSON.stringify g)
+  fs.writeFileSync("geo.json", JSON.stringify g)###
