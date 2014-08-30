@@ -1,6 +1,8 @@
 ###
 Based on esri (https://github.com/Esri/geojson-utils) of James Cardona
 ###
+arcgis = require "terraformer-arcgis-parser"
+
 ringIsClockwise = (ringToTest) ->
   total = 0
   pt1 = ringToTest[0]
@@ -22,21 +24,13 @@ to_geometry = (esri_geom) ->
       else
         geom = {type: "MultiLineString", coordinates: geomParts}
     else if esri_geom.rings
-      ringArray = []
-      for ring in esri_geom.rings
-        if ringIsClockwise(ring)
-          ringArray.push [ring]
-        else
-          ringArray[ringArray.length - 1].push ring
-      if ringArray.length > 1
-        geom = {type: "MultiPolygon", coordinates: ringArray}
-      else
-        geom = {type: "Polygon", coordinates: ringArray.pop()}
+        geom = {type: "Polygon", coordinates: esri_geom.rings}
   geom
 
 to_feature= (esri_feat, name_filter) ->
   feat = null
   if esri_feat
+    return arcgis.parse esri_feat
     feat = type: "Feature"
     feat.geometry = to_geometry(esri_feat.geometry)  if esri_feat.geometry
     if esri_feat.attributes
